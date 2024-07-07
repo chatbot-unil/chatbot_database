@@ -10,13 +10,22 @@ CREATE TABLE IF NOT EXISTS collections (
 );
 
 CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
+	PRIMARY KEY (uuid),
     uuid VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS sessions_users (
-    id SERIAL PRIMARY KEY,
+	PRIMARY KEY (user_uuid, session_id),
     user_uuid VARCHAR(255) NOT NULL,
     session_id VARCHAR(255) NOT NULL,
+	creation_date TIMESTAMP NOT NULL DEFAULT now(),
     FOREIGN KEY (user_uuid) REFERENCES users(uuid)
 );
+
+-- Created in the backend by langchain_postgres module
+-- CREATE TABLE IF NOT EXISTS chat_history (
+--     id SERIAL PRIMARY KEY,
+--     session_id UUID NOT NULL,
+--     message JSONB NOT NULL,
+--     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
+-- );
